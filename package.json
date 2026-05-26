@@ -1,0 +1,12 @@
+{
+  "name": "streamshelf",
+  "version": "1.0.0",
+  "description": "Static media watchlist and streaming tracker portfolio app.",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "test": "node tests/mediaService.test.js"
+  },
+  "keywords": ["media", "watchlist", "javascript", "portfolio"],
+  "author": "Brianna Brockington",
+  "license": "MIT"
+}

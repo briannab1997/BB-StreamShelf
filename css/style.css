@@ -47,7 +47,6 @@ button { cursor: pointer; }
   min-height: 660px;
   padding: 24px clamp(18px, 4vw, 58px) 118px;
   position: relative;
-  overflow: hidden;
 }
 
 .nav,
@@ -134,7 +133,7 @@ button { cursor: pointer; }
   color: var(--ink);
 }
 
-.hero-actions { margin-top: 24px; }
+.hero-actions { margin-top: 26px; }
 
 .hero-actions a {
   color: var(--ink);
@@ -143,165 +142,17 @@ button { cursor: pointer; }
   background: rgba(255, 255, 255, 0.07);
 }
 
-.hero-stage {
-  width: min(430px, 100%);
-  display: grid;
-  gap: 14px;
-}
-
-.preview-window {
-  position: relative;
-  min-height: 300px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 248, 241, 0.16);
-  border-radius: 14px;
-  background: rgba(8, 5, 11, 0.58);
-  box-shadow: 0 30px 90px rgba(7, 3, 10, 0.52);
-}
-
-.preview-window.pulse .preview-frame {
-  animation: previewPulse 1.2s ease;
-}
-
-.preview-art {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  align-content: end;
-  padding: 22px;
-  background:
-    linear-gradient(180deg, transparent 0%, rgba(8, 5, 11, 0.88) 82%),
-    radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--poster) 82%, white), transparent 24%),
-    linear-gradient(135deg, color-mix(in srgb, var(--poster) 54%, #140f18), #08050b 72%);
-}
-
-.preview-frame {
-  position: relative;
-  min-height: 168px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  background:
-    linear-gradient(110deg, transparent 0 40%, rgba(255, 255, 255, 0.14) 48%, transparent 58%),
-    radial-gradient(circle at 72% 30%, color-mix(in srgb, var(--accent) 68%, transparent), transparent 28%),
-    rgba(255, 255, 255, 0.06);
-  background-size: 220% 100%, auto, auto;
-  animation: trailerSweep 6s ease-in-out infinite;
-}
-
-.preview-frame span {
-  font-size: clamp(4rem, 9vw, 7rem);
-  font-weight: 950;
-  color: rgba(255, 248, 241, 0.94);
-  text-shadow: 0 20px 46px rgba(0, 0, 0, 0.46);
-}
-
-.preview-frame i {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 248, 241, 0.88);
-}
-
-.preview-frame i::before {
-  content: "";
-  position: absolute;
-  inset: 13px 14px 13px 17px;
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
-  background: #160d17;
-}
-
-.preview-caption {
-  margin-top: 16px;
-}
-
-.preview-caption b,
-.preview-caption small {
-  display: block;
-}
-
-.preview-caption b {
-  margin-bottom: 6px;
-  font-size: 1.45rem;
-  font-weight: 950;
-}
-
-.preview-caption small {
-  color: #f1dce5;
-  line-height: 1.5;
-  font-weight: 700;
-}
-
-.hero-dots {
-  display: flex;
-  gap: 8px;
-  margin-top: 24px;
-}
-
-.hero-dots button {
-  width: 34px;
-  height: 5px;
-  padding: 0;
-  border: 0;
-  border-radius: 999px;
-  background: rgba(255, 248, 241, 0.28);
-  transition: width 0.2s ease, background 0.2s ease;
-}
-
-.hero-dots button.active {
-  width: 56px;
-  background: linear-gradient(90deg, var(--hero-accent), var(--hero-color));
-}
-
 .hero {
-  --hero-color: var(--coral);
-  --hero-accent: var(--teal);
-  min-height: 520px;
+  min-height: 500px;
   align-items: flex-end;
-  position: relative;
-  margin-top: 12px;
-  padding: clamp(16px, 3vw, 34px);
-  overflow: hidden;
-  border: 1px solid rgba(255, 248, 241, 0.08);
-  border-radius: 18px;
-  background: var(--hero-bg, linear-gradient(135deg, #130f17, #251529 64%, #101d24));
-  box-shadow: inset 0 -120px 140px rgba(16, 13, 22, 0.58), var(--shadow);
-  transition: background 0.5s ease;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background:
-    linear-gradient(90deg, rgba(16, 13, 22, 0.34), transparent 45%),
-    radial-gradient(circle at 82% 58%, color-mix(in srgb, var(--hero-color) 26%, transparent), transparent 34%);
-}
-
-.hero-copy,
-.hero-stage {
-  position: relative;
-  z-index: 1;
-}
-
-.hero-copy {
-  max-width: min(780px, 100%);
 }
 
 .hero h1 {
   max-width: 900px;
   margin: 10px 0 18px;
-  font-size: clamp(2.8rem, 7vw, 6.25rem);
+  font-size: clamp(2.7rem, 7vw, 6.7rem);
   line-height: 0.89;
   letter-spacing: 0;
-  text-wrap: balance;
 }
 
 .hero p {
@@ -646,93 +497,22 @@ select:focus {
   min-height: 0;
   display: grid;
   place-items: center;
-  overflow: hidden;
   background:
     linear-gradient(180deg, transparent 0%, rgba(12, 5, 11, 0.62) 100%),
     linear-gradient(135deg, color-mix(in srgb, var(--poster) 72%, #271d2e), #130f17 72%);
 }
 
-.poster::before,
-.drawer-poster::before,
-.preview-art::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.55;
-  background:
-    linear-gradient(135deg, transparent 0 38%, rgba(255, 255, 255, 0.18) 39% 40%, transparent 41%),
-    radial-gradient(circle at 78% 18%, color-mix(in srgb, var(--accent) 70%, transparent), transparent 16%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 42px);
-}
-
-.poster-city::before {
-  background:
-    linear-gradient(180deg, transparent 0 58%, rgba(255, 255, 255, 0.16) 58% 60%, transparent 60%),
-    repeating-linear-gradient(90deg, transparent 0 26px, rgba(255, 255, 255, 0.16) 26px 30px, transparent 30px 42px),
-    radial-gradient(circle at 72% 18%, color-mix(in srgb, var(--accent) 72%, transparent), transparent 18%);
-}
-
-.poster-signal::before {
-  background:
-    repeating-radial-gradient(circle at 50% 44%, rgba(255, 255, 255, 0.18) 0 2px, transparent 2px 22px),
-    linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 32%, transparent), transparent);
-}
-
-.poster-sun::before,
-.poster-plate::before {
-  background:
-    radial-gradient(circle at 50% 35%, rgba(255, 248, 241, 0.32), transparent 22%),
-    repeating-linear-gradient(140deg, transparent 0 18px, rgba(255, 255, 255, 0.1) 18px 20px);
-}
-
-.poster-archive::before {
-  background:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.14) 0 2px, transparent 2px 16px),
-    linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.32), transparent);
-}
-
-.poster-arcade::before {
-  background:
-    repeating-linear-gradient(90deg, transparent 0 22px, rgba(255, 255, 255, 0.18) 22px 24px),
-    repeating-linear-gradient(0deg, transparent 0 22px, rgba(255, 255, 255, 0.12) 22px 24px),
-    radial-gradient(circle at 72% 18%, color-mix(in srgb, var(--accent) 76%, transparent), transparent 18%);
-}
-
-.poster-stars::before,
-.poster-moon::before {
-  background:
-    radial-gradient(circle at 72% 18%, rgba(255, 248, 241, 0.62), transparent 11%),
-    radial-gradient(circle at 24% 30%, rgba(255, 248, 241, 0.26), transparent 2px),
-    radial-gradient(circle at 44% 62%, rgba(255, 248, 241, 0.22), transparent 2px),
-    radial-gradient(circle at 82% 70%, rgba(255, 248, 241, 0.18), transparent 2px);
-}
-
 .poster span {
-  position: relative;
-  z-index: 1;
   font-size: 3.2rem;
   font-weight: 950;
   color: rgba(255, 255, 255, 0.94);
   text-shadow: 0 10px 28px rgba(0, 0, 0, 0.32);
 }
 
-.poster em {
-  position: absolute;
-  inset: auto 12px 46px;
-  z-index: 1;
-  color: rgba(255, 248, 241, 0.82);
-  font-size: 0.72rem;
-  font-style: normal;
-  font-weight: 850;
-  line-height: 1.25;
-  text-transform: uppercase;
-}
-
 .poster b {
   position: absolute;
   left: 12px;
   bottom: 12px;
-  z-index: 1;
   border-radius: 999px;
   background: rgba(16, 13, 22, 0.76);
   color: #fff;
@@ -809,34 +589,6 @@ select:focus {
   line-height: 1.65;
 }
 
-.drawer-card h3 {
-  margin: -10px 0 12px;
-  color: #ffd9d2;
-  font-size: 1rem;
-}
-
-.drawer-poster {
-  position: relative;
-  min-height: 190px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  margin: 18px 0 22px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background:
-    linear-gradient(180deg, transparent 0%, rgba(8, 5, 11, 0.66) 100%),
-    linear-gradient(135deg, color-mix(in srgb, var(--poster) 70%, #271d2e), #130f17 72%);
-}
-
-.drawer-poster span {
-  position: relative;
-  z-index: 1;
-  font-size: 5rem;
-  font-weight: 950;
-  text-shadow: 0 18px 40px rgba(0, 0, 0, 0.36);
-}
-
 .detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -895,17 +647,6 @@ select:focus {
 .empty {
   color: var(--muted);
   font-weight: 750;
-}
-
-@keyframes trailerSweep {
-  0%, 100% { background-position: 180% 0, center, center; }
-  50% { background-position: 0 0, center, center; }
-}
-
-@keyframes previewPulse {
-  0% { transform: scale(1); filter: saturate(1); }
-  45% { transform: scale(1.025); filter: saturate(1.3); }
-  100% { transform: scale(1); filter: saturate(1); }
 }
 
 @media (max-width: 860px) {

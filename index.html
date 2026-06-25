@@ -15,15 +15,19 @@
     <nav class="nav">
       <div class="brand"><span>SS</span><strong>StreamShelf</strong></div>
       <div class="nav-actions">
-        <button class="ghost-btn" id="reset-demo">Reset</button>
+        <button class="ghost-btn" id="reset-demo">Reset Demo</button>
         <button class="primary-btn" id="pick-tonight">Pick Tonight</button>
       </div>
     </nav>
     <section class="hero">
       <div>
-        <p class="eyebrow">Watchlist command center</p>
-        <h1>Find the right thing to watch without losing the plot.</h1>
-        <p>Track titles by mood, platform, progress, favorites, and rating in one playful streaming shelf.</p>
+        <p class="eyebrow">Personal streaming library</p>
+        <h1>Pick a title faster than it takes to scroll past one.</h1>
+        <p>StreamShelf organizes a mock watch library by mood, platform, progress, and status so a viewer can actually choose what to watch next.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="hero-pick">Build Tonight's Queue</button>
+          <a href="#library">Browse Library</a>
+        </div>
       </div>
       <article class="hero-pick" id="tonight-pick"></article>
     </section>
@@ -31,6 +35,40 @@
 
   <main class="main">
     <section class="metrics" id="metrics"></section>
+
+    <section class="mood-strip" aria-label="Mood filters">
+      <div>
+        <p class="eyebrow">Mood picker</p>
+        <h2>Tell the shelf what kind of night this is.</h2>
+      </div>
+      <div class="mood-buttons" id="mood-buttons"></div>
+    </section>
+
+    <section class="spotlight">
+      <div class="spotlight-copy">
+        <p class="eyebrow">Currently Watching</p>
+        <h2 id="spotlight-title">Loading</h2>
+        <p id="spotlight-copy"></p>
+        <div class="project-tags" id="spotlight-tags"></div>
+      </div>
+      <div class="progress-panel">
+        <span>Episode Progress</span>
+        <strong id="spotlight-progress">0%</strong>
+        <div class="progress-track"><i id="spotlight-bar"></i></div>
+        <p id="spotlight-next"></p>
+      </div>
+    </section>
+
+    <section class="rail-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Resume shelf</p>
+          <h2>Continue Watching</h2>
+        </div>
+        <span id="queue-count">0 active titles</span>
+      </div>
+      <div class="continue-rail" id="continue-rail"></div>
+    </section>
 
     <section class="toolbar">
       <input type="search" id="search" placeholder="Search title, platform, or genre" />
@@ -45,18 +83,12 @@
       </select>
     </section>
 
-    <section class="spotlight">
+    <section class="library-heading" id="library">
       <div>
-        <p class="eyebrow">Currently Watching</p>
-        <h2 id="spotlight-title">Loading</h2>
-        <p id="spotlight-copy"></p>
-        <div class="project-tags" id="spotlight-tags"></div>
+        <p class="eyebrow">Full library</p>
+        <h2>Search, filter, open, and update titles.</h2>
       </div>
-      <div class="progress-panel">
-        <span>Episode Progress</span>
-        <strong id="spotlight-progress">0%</strong>
-        <div class="progress-track"><i id="spotlight-bar"></i></div>
-      </div>
+      <p id="result-count"></p>
     </section>
 
     <section class="media-grid" id="media-grid"></section>

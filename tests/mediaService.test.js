@@ -4,7 +4,7 @@ require("../js/data");
 const service = require("../js/mediaService");
 
 let items = service.reset();
-assert.equal(items.length, 6);
+assert.equal(items.length, 8);
 assert.equal(service.stats(items).watching, 2);
 assert.equal(service.progress(items[0]), 60);
 
@@ -17,5 +17,8 @@ assert.equal(favorite.watched, favorite.episodes);
 
 const pick = service.pickTonight(service.getItems());
 assert.equal(Boolean(pick.title), true);
+
+const cozyPick = service.pickTonight(service.getItems(), "Cozy");
+assert.equal(Boolean(cozyPick.title), true);
 
 console.log("All StreamShelf tests passed.");

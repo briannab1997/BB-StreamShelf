@@ -19,17 +19,23 @@
         <button class="primary-btn" id="pick-tonight">Pick Tonight</button>
       </div>
     </nav>
-    <section class="hero">
-      <div>
-        <p class="eyebrow">Personal streaming library</p>
-        <h1>Pick a title faster than it takes to scroll past one.</h1>
-        <p>StreamShelf organizes a mock watch library by mood, platform, progress, and status so a viewer can actually choose what to watch next.</p>
+    <section class="hero" id="hero">
+      <div class="hero-copy">
+        <p class="eyebrow" id="hero-kicker">Personal streaming library</p>
+        <h1 id="hero-title">Pick a title faster than it takes to scroll past one.</h1>
+        <p id="hero-description">StreamShelf organizes a mock watch library by mood, platform, progress, and status so a viewer can actually choose what to watch next.</p>
+        <div class="project-tags" id="hero-tags"></div>
         <div class="hero-actions">
-          <button class="primary-btn" id="hero-pick">Build Tonight's Queue</button>
+          <button class="primary-btn" id="hero-play">Play Preview</button>
+          <button class="ghost-btn" id="hero-pick">Open Details</button>
           <a href="#library">Browse Library</a>
         </div>
+        <div class="hero-dots" id="hero-dots" aria-label="Featured title selector"></div>
       </div>
-      <article class="hero-pick" id="tonight-pick"></article>
+      <div class="hero-stage" id="hero-stage">
+        <article class="preview-window" id="preview-window" aria-live="polite"></article>
+        <article class="hero-pick" id="tonight-pick"></article>
+      </div>
     </section>
   </header>
 

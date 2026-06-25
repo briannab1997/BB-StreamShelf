@@ -1,7 +1,16 @@
 let items = StreamShelfService.getItems();
 let selectedId = null;
 let activeMood = "All";
+let featuredIndex = 0;
+let carouselTimer = null;
 
+const hero = document.getElementById("hero");
+const heroTitle = document.getElementById("hero-title");
+const heroKicker = document.getElementById("hero-kicker");
+const heroDescription = document.getElementById("hero-description");
+const heroTags = document.getElementById("hero-tags");
+const heroDots = document.getElementById("hero-dots");
+const previewWindow = document.getElementById("preview-window");
 const grid = document.getElementById("media-grid");
 const drawer = document.getElementById("drawer");
 const drawerContent = document.getElementById("drawer-content");
@@ -14,6 +23,20 @@ const moodButtons = document.getElementById("mood-buttons");
 const continueRail = document.getElementById("continue-rail");
 const queueCount = document.getElementById("queue-count");
 const resultCount = document.getElementById("result-count");
+
+function titleInitials(item) {
+  return item.title.split(" ").map(word => word[0]).join("").slice(0, 3);
+}
+
+function withDefaults(item) {
+  return {
+    ...item,
+    tagline: item.tagline || item.note,
+    accent: item.accent || item.color,
+    poster: item.poster || "default",
+    preview: item.preview || item.note
+  };
+}
 
 function showToast(message) {
   toast.textContent = message;
@@ -39,6 +62,52 @@ function renderMoodButtons() {
   `).join("");
 }
 
+function featuredItems() {
+  const priority = ["Watching", "Watchlist", "Favorite", "Finished"];
+  return [...items]
+    .sort((a, b) => priority.indexOf(a.status) - priority.indexOf(b.status) || b.rating - a.rating)
+    .slice(0, 5)
+    .map(withDefaults);
+}
+
+function setFeatured(index, userInitiated = false) {
+  const featured = featuredItems();
+  if (!featured.length) return;
+  featuredIndex = (index + featured.length) % featured.length;
+  const item = featured[featuredIndex];
+  const percent = StreamShelfService.progress(item);
+
+  hero.style.setProperty("--hero-color", item.color);
+  hero.style.setProperty("--hero-accent", item.accent);
+  hero.style.setProperty("--hero-bg", `linear-gradient(90deg, rgba(16, 13, 22, 0.98) 0%, rgba(16, 13, 22, 0.78) 48%, rgba(16, 13, 22, 0.24) 100%), radial-gradient(circle at 82% 28%, ${item.color}88, transparent 32%), linear-gradient(135deg, #130f17, #251529 64%, #101d24)`);
+  heroKicker.textContent = `${item.type} spotlight`;
+  heroTitle.textContent = item.title;
+  heroDescription.textContent = `${item.tagline} ${item.preview}`;
+  heroTags.innerHTML = [item.platform, item.genre, item.mood, `${item.rating}/5`, `${percent}% watched`].map(tag => `<span>${tag}</span>`).join("");
+  previewWindow.innerHTML = `
+    <div class="preview-art poster-${item.poster}" style="--poster:${item.color}; --accent:${item.accent}">
+      <div class="preview-frame">
+        <span>${titleInitials(item)}</span>
+        <i></i>
+      </div>
+      <div class="preview-caption">
+        <b>${item.title}</b>
+        <small>${item.preview}</small>
+      </div>
+    </div>
+  `;
+  heroDots.innerHTML = featured.map((entry, dotIndex) => `
+    <button class="${dotIndex === featuredIndex ? "active" : ""}" data-featured-index="${dotIndex}" aria-label="Show ${entry.title}"></button>
+  `).join("");
+
+  if (userInitiated) restartCarousel();
+}
+
+function restartCarousel() {
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(() => setFeatured(featuredIndex + 1), 6500);
+}
+
 function filteredItems() {
   const q = search.value.trim().toLowerCase();
   return items.filter(item => {
@@ -62,6 +131,7 @@ function renderMetrics() {
 }
 
 function renderPick(item = StreamShelfService.pickTonight(items)) {
+  item = withDefaults(item);
   document.getElementById("tonight-pick").innerHTML = `
     <span>Tonight's Queue</span>
     <strong>${item.title}</strong>
@@ -74,9 +144,9 @@ function renderPick(item = StreamShelfService.pickTonight(items)) {
 }
 
 function renderSpotlight() {
-  const item = items
+  const item = withDefaults(items
     .filter(entry => entry.status === "Watching")
-    .sort((a, b) => StreamShelfService.progress(b) - StreamShelfService.progress(a))[0] || items[0];
+    .sort((a, b) => StreamShelfService.progress(b) - StreamShelfService.progress(a))[0] || items[0]);
   const percent = StreamShelfService.progress(item);
   document.getElementById("spotlight-title").textContent = item.title;
   document.getElementById("spotlight-copy").textContent = item.note;
@@ -89,11 +159,13 @@ function renderSpotlight() {
 }
 
 function card(item) {
+  item = withDefaults(item);
   const percent = StreamShelfService.progress(item);
   return `
-    <article class="media-card" data-id="${item.id}" style="--poster:${item.color}">
-      <div class="poster">
-        <span>${item.title.split(" ").map(word => word[0]).join("").slice(0, 3)}</span>
+    <article class="media-card" data-id="${item.id}" style="--poster:${item.color}; --accent:${item.accent}">
+      <div class="poster poster-${item.poster}">
+        <span>${titleInitials(item)}</span>
+        <em>${item.tagline}</em>
         <b>${item.platform}</b>
       </div>
       <div class="media-copy">
@@ -108,9 +180,10 @@ function card(item) {
 }
 
 function railCard(item) {
+  item = withDefaults(item);
   const percent = StreamShelfService.progress(item);
   return `
-    <button class="rail-card" data-id="${item.id}" style="--poster:${item.color}">
+    <button class="rail-card" data-id="${item.id}" style="--poster:${item.color}; --accent:${item.accent}">
       <span>${item.title}</span>
       <small>${item.platform} · ${percent}% complete</small>
       <i><b style="width:${percent}%"></b></i>
@@ -134,10 +207,14 @@ function renderGrid() {
 
 function openDrawer(id) {
   selectedId = id;
-  const item = items.find(entry => entry.id === id);
+  const item = withDefaults(items.find(entry => entry.id === id));
   drawerContent.innerHTML = `
+    <div class="drawer-poster poster-${item.poster}" style="--poster:${item.color}; --accent:${item.accent}">
+      <span>${titleInitials(item)}</span>
+    </div>
     <p class="eyebrow">${item.platform} · ${item.genre}</p>
     <h2>${item.title}</h2>
+    <h3>${item.tagline}</h3>
     <p>${item.note}</p>
     <div class="detail-grid">
       <div><span>Status</span><strong>${item.status}</strong></div>
@@ -162,6 +239,7 @@ function openDrawer(id) {
 }
 
 function refresh() {
+  setFeatured(featuredIndex);
   renderMetrics();
   renderPick(StreamShelfService.pickTonight(items, activeMood === "All" ? null : activeMood));
   renderMoodButtons();
@@ -175,10 +253,17 @@ document.getElementById("pick-tonight").addEventListener("click", () => {
   showToast(activeMood === "All" ? "Picked your strongest match" : `Picked a ${activeMood.toLowerCase()} match`);
 });
 
+document.getElementById("hero-play").addEventListener("click", () => {
+  const item = featuredItems()[featuredIndex];
+  showToast(`Previewing ${item.title}`);
+  previewWindow.classList.remove("pulse");
+  requestAnimationFrame(() => previewWindow.classList.add("pulse"));
+});
+
 document.getElementById("hero-pick").addEventListener("click", () => {
-  const pick = StreamShelfService.pickTonight(items, activeMood === "All" ? null : activeMood);
-  openDrawer(pick.id);
-  showToast("Tonight's queue is ready");
+  const item = featuredItems()[featuredIndex];
+  openDrawer(item.id);
+  showToast("Title details opened");
 });
 
 document.getElementById("reset-demo").addEventListener("click", () => {
@@ -192,6 +277,12 @@ document.getElementById("reset-demo").addEventListener("click", () => {
 document.addEventListener("click", event => {
   const card = event.target.closest(".media-card, .rail-card");
   if (card) openDrawer(card.dataset.id);
+});
+
+heroDots.addEventListener("click", event => {
+  const button = event.target.closest("button");
+  if (!button) return;
+  setFeatured(Number(button.dataset.featuredIndex), true);
 });
 
 drawerContent.addEventListener("click", event => {
@@ -237,3 +328,4 @@ document.addEventListener("keydown", event => {
 
 fillFilters();
 refresh();
+restartCarousel();
